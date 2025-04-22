@@ -1,6 +1,7 @@
 package com.lucas.crud_spring;
 
 import com.lucas.crud_spring.enums.Category;
+import com.lucas.crud_spring.model.Lesson;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +25,12 @@ public class CrudSpringApplication {
 			Course c = new Course();
 			c.setName("Angular com Spring");
 			c.setCategory(Category.FRONT_END);
+
+			Lesson l = new Lesson();
+			l.setName("Introdução");
+			l.setYoutubeUrl("watch?v=1");
+			l.setCourse(c);
+			c.getLessons().add(l);
 
 			courseRepository.save( c );
 		};
