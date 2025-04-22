@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Validated
 @Service
@@ -29,7 +28,7 @@ public class CourseService {
         return courseRepository.findAll()
                 .stream()
                 .map(courseMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CourseDTO findById(@NotNull @Positive Long id) {
