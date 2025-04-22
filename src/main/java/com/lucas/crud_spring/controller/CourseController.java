@@ -2,6 +2,7 @@ package com.lucas.crud_spring.controller;
 
 import java.util.List;
 
+import com.lucas.crud_spring.dto.CourseDTO;
 import com.lucas.crud_spring.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,23 +25,23 @@ public class CourseController {
     }
 
     @GetMapping
-    public @ResponseBody List<Course> list() {
+    public @ResponseBody List<CourseDTO> list() {
         return courseService.list();
     }
 
     @GetMapping("/{id}")
-    public Course findById(@PathVariable @NotNull @Positive Long id) {
+    public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
         return courseService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course create(@RequestBody @Valid Course course) {
+    public CourseDTO create(@RequestBody @Valid @NotNull CourseDTO course) {
         return courseService.create(course);
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
+    public CourseDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseDTO course) {
         return courseService.update(id, course);
     }
 
