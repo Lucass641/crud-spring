@@ -4,9 +4,11 @@ import com.lucas.crud_spring.dto.CourseDTO;
 import com.lucas.crud_spring.dto.LessonDTO;
 import com.lucas.crud_spring.enums.Category;
 import com.lucas.crud_spring.model.Course;
+import com.lucas.crud_spring.model.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 @Component
 public class CourseMapper {
@@ -29,9 +31,9 @@ public class CourseMapper {
     }
 
     public Course toEntity(CourseDTO courseDTO) {
-        if (courseDTO == null) {
+        if (courseDTO == null)
             return null;
-        }
+
 
         Course course = new Course();
         if (courseDTO.id() != null) {
@@ -39,9 +41,21 @@ public class CourseMapper {
         }
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
+
+
+            List<Lesson> lessons = courseDTO.lesson().stream().map(lessonDTO -> {
+                var lesson = new Lesson();
+                lesson.setId(lessonDTO.id());
+                lesson.setName(lessonDTO.name());
+                lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+                lesson.setCourse(course);
+                return lesson;
+            }).toList();
+            course.setLessons(lessons);
         return course;
 
     }
+
     public Category convertCategoryValue(String value) {
         if (value == null) {
             return null;
@@ -49,7 +63,7 @@ public class CourseMapper {
         return switch (value) {
             case "Front-end" -> Category.FRONT_END;
             case "Back-end" -> Category.BACK_END;
-            default -> throw new IllegalArgumentException("Categoria inválida: " + value );
+            default -> throw new IllegalArgumentException("Categoria inválida: " + value);
         };
     }
 }
